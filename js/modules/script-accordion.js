@@ -1,24 +1,30 @@
-export default function initAccordion() {
+export default class Accordion {
   // Pegar os accordionList
-  const accordionList = document.querySelectorAll('[data-anime="accordion"] dt');
-  const activeClass = 'ativo';
-
-  function activeAccordion() {
-    this.classList.toggle(activeClass);
-    this.nextElementSibling.classList.toggle(activeClass);
+  constructor(list) {
+    this.accordionList = document.querySelectorAll(list);
+    this.activeClass = 'ativo';
   }
 
-  if (accordionList.length) {
-    // Iniciar os primeiros DD e DT abertos
-    accordionList[0].classList.add(activeClass);
-    accordionList[0].nextElementSibling.classList.add(activeClass);
+  toggleAccordion(item) {
+    item.classList.toggle(this.activeClass);
+    item.nextElementSibling.classList.toggle(this.activeClass);
+  }
 
-    // Ele coloca uma classe que adiciona se nao existir e remove se existir
-    // E coloca no elemento proximo.
-
-    // Para cada DD
-    accordionList.forEach((item) => {
-      item.addEventListener('click', activeAccordion);
+  // evento ao accordion
+  addAccordionEvent() {
+    this.accordionList.forEach((item) => {
+      item.addEventListener('click', () => {
+        this.toggleAccordion(item);
+      });
     });
+  }
+
+  // iniciar func
+  init() {
+    if (this.accordionList.length) {
+      // ativar primeiro item
+      this.toggleAccordion(this.accordionList[0]);
+      this.addAccordionEvent();
+    }
   }
 }
