@@ -6,7 +6,7 @@ import Modal from './modules/modal.js';
 import ToolTip from './modules/tooltip.js';
 import initDropDownMenu from './modules/dropdown.js';
 import initFuncionamento from './modules/funcionamento.js';
-import initFetchAnimais from './modules/fetch-animais.js';
+import fetchAnimais from './modules/fetch-animais.js';
 import initFetchBTC from './modules/btc-fetch.js';
 import MenuMobile from './modules/menu-mobile.js';
 
@@ -33,5 +33,7 @@ const menuMobile = new MenuMobile('[data-menu=button]', '[data-menu=list]');
 menuMobile.init();
 
 initFuncionamento();
-initFetchAnimais();
+
 initFetchBTC();
+
+fetchAnimais('../../animaisapi.json', '.numeros-grid');
