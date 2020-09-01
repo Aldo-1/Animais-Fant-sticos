@@ -14,8 +14,9 @@ export default class ToolTip {
     this.tooltipBox.style.top = `${event.pageY + 20}px`;
     if (event.pageX + 240 > window.innerWidth) {
       this.tooltipBox.style.left = `${event.pageX - 190}px`;
+    } else {
+      this.tooltipBox.style.left = `${event.pageX + 20}px`;
     }
-    this.tooltipBox.style.left = `${event.pageX + 20}px`;
   }
 
   // remove a tooltip mouseleav
@@ -39,9 +40,8 @@ export default class ToolTip {
   onMouseOver({ currentTarget }) {
     // cria a tooltipboxe bota prop
     this.criarTooltipBox(currentTarget);
-
-    currentTarget.addEventListener('mouseleave', this.onMouseMove);
     currentTarget.addEventListener('mousemove', this.onMouseMove);
+    currentTarget.addEventListener('mouseleave', this.onMouseLeave);
   }
 
   // adiciona os eventos de mouse hover a cada tooltip
