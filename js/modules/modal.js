@@ -21,7 +21,7 @@ export default class Modal {
 
   // fecha ao clicar do lado de fora
   handleOnClickExit(event) {
-    if (event.target === this.containerModal) { this.handleOnClick(event); }
+    if (event.target === this.modal) { this.handleOnClick(event); }
   }
 
   // adiciona os eventos
