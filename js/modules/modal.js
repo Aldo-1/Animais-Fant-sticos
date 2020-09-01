@@ -1,21 +1,40 @@
-export default function initModal() {
-  const login = document.querySelector('[data-modal="abrir"]');
-  const fechar = document.querySelector('[data-modal="fechar"]');
-  const modal = document.querySelector('[data-modal="container"]');
-  function handleOnClick(event) {
+export default class Modal {
+  constructor(btnAbrir, btnFechar, containerModal) {
+    this.login = document.querySelector(btnAbrir);
+    this.fechar = document.querySelector(btnFechar);
+    this.modal = document.querySelector(containerModal);
+    // Bind e para o this fazer refarencia ao objeto, dessas funcoes cb
+    this.eventHandleOnClick = this.eventHandleOnClick.bind(this);
+    this.handleOnClickExit = this.handleOnClickExit.bind(this);
+  }
+
+  // adicionar ativo
+  handleOnClick() {
+    this.modal.classList.toggle('ativo');
+  }
+
+  // previne o evento padrao
+  eventHandleOnClick(event) {
     event.preventDefault();
-
-    modal.classList.toggle('ativo');
+    this.handleOnClick();
   }
 
-  function handleOnClickExit(event) {
-    console.log(this);
-    console.log(event.target);
-    if (event.target === this) { handleOnClick(event); }
+  // fecha ao clicar do lado de fora
+  handleOnClickExit(event) {
+    if (event.target === this.containerModal) { this.handleOnClick(event); }
   }
-  if (login && fechar && modal) {
-    login.addEventListener('click', handleOnClick);
-    fechar.addEventListener('click', handleOnClick);
-    modal.addEventListener('click', handleOnClickExit);
+
+  // adiciona os eventos
+  addEventListener() {
+    this.login.addEventListener('click', this.eventHandleOnClick);
+    this.fechar.addEventListener('click', this.eventHandleOnClick);
+    this.modal.addEventListener('click', this.handleOnClickExit);
+  }
+
+  init() {
+    if (this.login && this.fechar && this.modal) {
+      this.addEventListener();
+    }
+    return this;
   }
 }
