@@ -5,7 +5,7 @@ import TabNav from './modules/script-tabNav.js';
 import Modal from './modules/modal.js';
 import ToolTip from './modules/tooltip.js';
 import DropdownMenu from './modules/dropdown.js';
-import initFuncionamento from './modules/funcionamento.js';
+import Funcionamento from './modules/funcionamento.js';
 import fetchAnimais from './modules/fetch-animais.js';
 import fetchBitcoin from './modules/btc-fetch.js';
 import MenuMobile from './modules/menu-mobile.js';
@@ -34,7 +34,8 @@ dropdownMenu.init();
 const menuMobile = new MenuMobile('[data-menu=button]', '[data-menu=list]');
 menuMobile.init();
 
-initFuncionamento();
+const funcionamento = new Funcionamento('[data-semana]', 'aberto');
+funcionamento.init();
 
 fetchBitcoin('https://blockchain.info/ticker', '.btc-preco');
 
