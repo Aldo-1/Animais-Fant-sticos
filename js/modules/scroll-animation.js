@@ -1,28 +1,47 @@
-export default function initAnimacaoScroll() {
-  // Pegando as sessoes
-  const sections = document.querySelectorAll('[data-anime="scroll"]');
+export default class scrollAnima {
+  constructor(sections) {
+    this.sections = document.querySelectorAll(sections);
+    this.metadeAltura = window.innerHeight * 0.6;
+    this.checkDistance = this.checkDistance.bind(this);
+  }
 
-  const metadeAltura = window.innerHeight * 0.6;
-  function animaScroll() {
+  // Pegando as distancias do topo das sessoes
+  getDistance() {
+    this.distance = [...this.sections].map((section) => {
+      const sectionTop = section.offsetTop;
+
+      return {
+        element: section,
+        offset: Math.floor(sectionTop - this.metadeAltura),
+      };
+    });
+  }
+
+  // verifica a distancia em cada objeto em relacao ao scrooll do site
+  checkDistance() {
     // Paraca cada sessao(item) ele pega a distancia do topo dela
     // e diminui com o metade altura.
     // Se o section for visivel menor que 0, ele aparece
-    sections.forEach((item) => {
-      const sectionTop = item.getBoundingClientRect().top;
-      const isSectionVisible = (sectionTop - metadeAltura) < 0;
-      if (isSectionVisible) {
-        item.classList.add('ativo');
-      } else if (item.classList.contains('ativo')) {
-        item.classList.remove('ativo');
+    this.distance.forEach((item) => {
+      if (window.pageYOffset > item.offset) {
+        item.element.classList.add('ativo');
+      } else if (item.element.classList.contains('ativo')) {
+        item.element.classList.remove('ativo');
       }
     });
   }
 
-  if (sections.length) {
-    // Pegando a metade da altura para ele ja comecar a animacao
+  init() {
+    if (this.sections.length) {
+      this.getDistance();
+      this.checkDistance();
+      window.addEventListener('scroll', this.checkDistance);
+    }
+    return this;
+  }
 
-    // ele ja comeca para aparecer no comeco
-    animaScroll();
-    window.addEventListener('scroll', animaScroll);
+  // Remove o evento de scrol
+  stop() {
+    window.removeEventListener('scroll', this.checkDistance);
   }
 }
